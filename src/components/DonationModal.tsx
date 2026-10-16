@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, X, CheckCircle, ShieldCheck, ArrowRight, Building, Sparkles } from 'lucide-react';
 
 interface DonationModalProps {
@@ -36,6 +36,28 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [receiptNumber, setReceiptNumber] = useState<string>('');
+
+  // Close on Escape key press
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
+  // Lock body scroll when modal is active
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -78,29 +100,44 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const causeName = DONATION_CAUSES.find((c) => c.id === selectedCause)?.name || 'General Community Fund';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/75 backdrop-blur-sm animate-fadeIn cursor-pointer"
+      role="dialog"
+      aria-modal="true"
+    >
       <div
-        className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#172438] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 transition-colors"
-        role="dialog"
-        aria-modal="true"
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-xl max-h-[92vh] overflow-y-auto bg-white dark:bg-[#172438] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 transition-colors cursor-default"
       >
-        {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-gradient-to-r from-teal-750 to-teal-850 dark:from-teal-900 dark:to-slate-900 text-white rounded-t-2xl shadow-sm border-b border-teal-600/30 dark:border-slate-700">
+        {/* Header - Strong contrast green/teal background */}
+        <div
+          className="sticky top-0 z-20 flex items-center justify-between px-5 sm:px-6 py-4 text-white rounded-t-2xl shadow-md border-b border-teal-700/60"
+          style={{ background: 'linear-gradient(135deg, #064E3B 0%, #0D5C4B 50%, #115E59 100%)' }}
+        >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-white/10 dark:bg-white/15 flex items-center justify-center text-amber-300">
+            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-amber-300 shrink-0 shadow-inner">
               <Heart className="w-5 h-5 fill-current" />
             </div>
             <div>
-              <h2 className="text-lg font-bold font-heading">Secure Donation Portal</h2>
-              <p className="text-xs text-teal-100 dark:text-teal-200">Dawat-e-Islami UK · Yorkshire Region</p>
+              <h2 className="text-base sm:text-lg font-bold font-heading text-white leading-tight">
+                Secure Donation Portal
+              </h2>
+              <p className="text-[11px] sm:text-xs text-teal-100 font-medium">
+                Dawat-e-Islami UK · Yorkshire Region
+              </p>
             </div>
           </div>
+
+          {/* High-visibility Close Button */}
           <button
+            type="button"
             onClick={onClose}
-            className="p-1.5 text-white/80 hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 active:bg-white/40 text-white flex items-center justify-center transition-all cursor-pointer shadow-sm border border-white/30 shrink-0 hover:scale-105"
             aria-label="Close donation modal"
+            title="Close (Esc)"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5 stroke-[2.5]" />
           </button>
         </div>
 
@@ -294,28 +331,38 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Action Buttons */}
             <div className="space-y-2 pt-2">
-              <button
-                type="submit"
-                disabled={isSubmitting || finalAmount <= 0}
-                className="w-full py-3.5 px-4 bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white font-bold text-base rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {isSubmitting ? (
-                  <span className="inline-flex items-center gap-2">
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Processing Secure Payment...
-                  </span>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4 text-amber-300" />
-                    Confirm & Donate £{finalAmount.toFixed(2)}
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="w-1/3 sm:w-28 py-3.5 px-4 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-sm rounded-xl transition-all border border-slate-300 dark:border-slate-600 cursor-pointer text-center shrink-0"
+                >
+                  Cancel
+                </button>
 
-              <div className="flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs">
+                <button
+                  type="submit"
+                  disabled={isSubmitting || finalAmount <= 0}
+                  className="flex-1 py-3.5 px-4 bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-900 text-white font-bold text-sm sm:text-base rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Processing Secure Payment...
+                    </span>
+                  ) : (
+                    <>
+                      <Sparkles className="w-4 h-4 text-amber-300" />
+                      <span>Confirm & Donate £{finalAmount.toFixed(2)}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+
+              <div className="flex items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 text-xs pt-1">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 <span>256-Bit SSL Encrypted · Dawat-e-Islami UK Charity</span>
               </div>

@@ -139,16 +139,18 @@ export const FastSlider: React.FC<FastSliderProps> = ({
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Slides View */}
-      <div className={`relative min-h-[460px] sm:min-h-[520px] lg:min-h-[580px] bg-gradient-to-r ${activeSlide.bgGradient} flex items-center transition-all duration-700`}>
-        {/* Ambient background image with soft fade */}
-        <div className="absolute inset-0 z-0 opacity-25 mix-blend-overlay">
+      <div className="relative min-h-[460px] sm:min-h-[520px] lg:min-h-[580px] bg-slate-950 flex items-center transition-all duration-700">
+        {/* Background Image - reduced overlay for clearer visibility */}
+        <div className="absolute inset-0 z-0">
           <img
             src={activeSlide.image}
             alt={activeSlide.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-opacity duration-700"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/40 z-0 pointer-events-none" />
+        {/* Reduced overlay: gentle contrast on text side, clear on image artwork */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/50 to-slate-950/20 z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-slate-950/25 z-0 pointer-events-none" />
 
         {/* Slide Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16 w-full">
