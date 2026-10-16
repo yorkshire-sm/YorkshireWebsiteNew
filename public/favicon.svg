@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Shield -->
+  <rect width="64" height="64" rx="16" fill="url(#emeraldGrad)" />
+  
+  <!-- Subtle border -->
+  <rect x="1.5" y="1.5" width="61" height="61" rx="14.5" fill="none" stroke="#34d399" stroke-width="1.5" stroke-opacity="0.3" />
+
+  <!-- Mosque Dome Silhouette -->
+  <path d="M32 16 C30 22 23 27 23 35 L41 35 C41 27 34 22 32 16 Z" fill="url(#goldGrad)" />
+  <!-- Base of Dome -->
+  <rect x="21" y="35" width="22" height="4" rx="1" fill="#fde68a" />
+  <rect x="19" y="39" width="26" height="15" rx="1" fill="#10b981" fill-opacity="0.25" />
+  <!-- Arch door -->
+  <path d="M28 54 L28 44 C28 41.8 29.8 40 32 40 C34.2 40 36 41.8 36 44 L36 54 Z" fill="url(#goldGrad)" />
+  <!-- Crescent finial on top of dome -->
+  <path d="M32 11 A 2.5 2.5 0 0 1 33.8 15 A 3 3 0 1 0 30.5 11.5 A 2.5 2.5 0 0 1 32 11 Z" fill="#fbbf24" />
+</svg>
