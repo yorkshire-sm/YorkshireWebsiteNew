@@ -12,14 +12,10 @@ export const DONATION_CAUSES = [
   { id: 'general', name: 'General Welfare & Sadqa Fund' },
   { id: 'zakah', name: 'Zakah Obligation (Purify Your Wealth)' },
   { id: 'fsf', name: 'Funeral Services Fund (FSF Death Committee)' },
-  { id: 'leeds', name: 'Leeds New Mosque Development Appeal' },
+  { id: 'regular', name: '£15 Monthly Direct Debit (Regular Supporter)' },
+  { id: 'palestine', name: 'Palestine Relief Appeal (FGRF)' },
+  { id: 'leeds', name: 'Leeds New Mosque Development Appeal (£150k)' },
   { id: 'huddersfield', name: 'Huddersfield Debt-Free Appeal' },
-  { id: 'bradford', name: 'Bradford Centers (Faizan e Madinah)' },
-  { id: 'sheffield', name: 'Sheffield Center Support' },
-  { id: 'rotherham', name: 'Rotherham Center Maintenance' },
-  { id: 'dewsbury', name: 'Dewsbury / Ravensthorpe Education Center' },
-  { id: 'halifax', name: 'Halifax Center & Jamā\'at Support' },
-  { id: 'keighley', name: 'Keighley Center Support' },
   { id: 'darulmadinah', name: 'Dar-ul-Madinah Islamic Education Fund' },
 ];
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Heart, MapPin, Sparkles, BookOpen, Clock } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Heart, Sparkles } from 'lucide-react';
 import { ActiveTab } from './Navbar';
 
 interface FastSliderProps {
@@ -14,7 +14,7 @@ interface SlideItem {
   subtitle: string;
   description: string;
   primaryBtn: { text: string; action: () => void; isDonation?: boolean };
-  secondaryBtn: { text: string; action: () => void; isDonation?: boolean };
+  secondaryBtn?: { text: string; action: () => void; isDonation?: boolean };
   bgGradient: string;
   image: string;
 }
@@ -34,9 +34,53 @@ export const FastSlider: React.FC<FastSliderProps> = ({
       subtitle: 'Where Faith Meets Excellence & Community Service',
       description: 'Serving Muslims across Bradford, Leeds, Sheffield, Rotherham, Huddersfield, Dewsbury, Halifax, and Keighley through Quran, Sunnah, and welfare.',
       primaryBtn: { text: 'Find Mosques & Timings', action: () => setActiveTab('mosques') },
-      secondaryBtn: { text: 'Support Local Centers', action: () => onOpenDonationModal() },
+      secondaryBtn: { text: 'Support Local Centers', action: () => onOpenDonationModal(), isDonation: true },
       bgGradient: 'from-teal-950 via-teal-900 to-slate-950',
       image: 'https://dawateislamiyorkshire.co.uk/wp-content/uploads/2023/12/ezgif.com-webp-to-jpg-1.jpg',
+    },
+    {
+      id: 'regular-supporter',
+      badge: 'Monthly Direct Debit · Regular Giving',
+      title: 'Become A Regular Supporter',
+      subtitle: 'Set Up a £15 Monthly Direct Debit',
+      description: 'Support Dawat-E-Islami by Setting up a £15 Monthly Direct Debit. Your donation can be used for any permissible, religious, reformatory, welfare, well-wishing, spiritual, benevolent, and good purpose.',
+      primaryBtn: { text: 'Setup Now!', action: () => onOpenDonationModal('regular'), isDonation: true },
+      secondaryBtn: { text: 'Support Local Centers', action: () => onOpenDonationModal() },
+      bgGradient: 'from-sky-950 via-teal-950 to-slate-950',
+      image: 'https://dawateislamiyorkshire.co.uk/wp-content/uploads/2026/01/SET-UP-A-MONTHLY-15.jpg',
+    },
+    {
+      id: 'leeds-project',
+      badge: 'New Mosque & Madrasah Construction',
+      title: 'Faizan E Madina Leeds Project',
+      subtitle: 'Purpose-Built Islamic & Education Centre in West Yorkshire',
+      description: 'A new purpose built Faizan-e-Madina Mosque & education centre is under construction in Leeds, West Yorkshire. Please help Dawateislami to raise £150,000 for New Faizan-e-Madina Masjid & Madrasah in Leeds.',
+      primaryBtn: { text: 'Donate Now!', action: () => onOpenDonationModal('leeds'), isDonation: true },
+      secondaryBtn: { text: 'View All Mosques', action: () => setActiveTab('mosques') },
+      bgGradient: 'from-emerald-950 via-teal-950 to-slate-950',
+      image: 'https://dawateislamiyorkshire.co.uk/wp-content/uploads/2023/12/5_project_img_1306208297.jpeg',
+    },
+    {
+      id: 'palestine',
+      badge: 'Emergency Humanitarian Relief · FGRF',
+      title: 'Donate For Palestine',
+      subtitle: 'Supporting Distressed Palestinian Families',
+      description: 'FGRF, has reached Palestine to assist the oppressed Muslim population. The Muslim population of Palestine is suffering in the agony of separation from their loved ones, feeling helpless and vulnerable, as they await any unseen assistance.',
+      primaryBtn: { text: 'Donate Now!', action: () => onOpenDonationModal('palestine'), isDonation: true },
+      secondaryBtn: { text: 'General Welfare Fund', action: () => onOpenDonationModal('general') },
+      bgGradient: 'from-teal-950 via-slate-900 to-emerald-950',
+      image: 'https://dawateislamiyorkshire.co.uk/wp-content/uploads/2023/12/78450863338_hero_img.png',
+    },
+    {
+      id: 'zakah',
+      badge: 'Pillar of Islam · Wealth Purification',
+      title: 'Paying Your Zakah',
+      subtitle: 'Fulfill Your Obligation with Complete Precision',
+      description: 'Zakah is one of the five pillars of Islam and it is an obligatory act. The meaning of Zakah is "to purify". In essence, Zakah is purity or to purify. To purify our own wealth all Muslims are obliged to pay a portion of their wealth.',
+      primaryBtn: { text: 'Calculate Zakah!', action: () => setActiveTab('zakah') },
+      secondaryBtn: { text: 'Pay Zakah Directly', action: () => onOpenDonationModal('zakah'), isDonation: true },
+      bgGradient: 'from-amber-950 via-teal-950 to-slate-950',
+      image: 'https://dawateislamiyorkshire.co.uk/wp-content/uploads/2025/08/Zakah.jpg',
     },
     {
       id: 'jummah',
@@ -90,7 +134,7 @@ export const FastSlider: React.FC<FastSliderProps> = ({
 
   return (
     <div
-      className="relative overflow-hidden w-full max-w-full bg-slate-950 text-white"
+      className="relative overflow-hidden w-full max-w-full bg-slate-950 text-white select-none"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -131,21 +175,23 @@ export const FastSlider: React.FC<FastSliderProps> = ({
               <button
                 type="button"
                 onClick={activeSlide.primaryBtn.action}
-                className="px-6 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg hover:shadow-xl"
+                className="px-6 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-bold rounded-xl text-sm transition-all shadow-lg hover:shadow-xl cursor-pointer"
               >
                 {activeSlide.primaryBtn.text}
               </button>
 
-              <button
-                type="button"
-                onClick={activeSlide.secondaryBtn.action}
-                className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm border border-white/20 transition-all flex items-center gap-2"
-              >
-                {activeSlide.secondaryBtn.isDonation ? (
-                  <Heart className="w-4 h-4 text-amber-400 fill-amber-400" />
-                ) : null}
-                <span>{activeSlide.secondaryBtn.text}</span>
-              </button>
+              {activeSlide.secondaryBtn && (
+                <button
+                  type="button"
+                  onClick={activeSlide.secondaryBtn.action}
+                  className="px-6 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl text-sm border border-white/20 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  {activeSlide.secondaryBtn.isDonation ? (
+                    <Heart className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  ) : null}
+                  <span>{activeSlide.secondaryBtn.text}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -155,7 +201,7 @@ export const FastSlider: React.FC<FastSliderProps> = ({
           type="button"
           onClick={prevSlide}
           aria-label="Previous slide"
-          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center border border-white/20 backdrop-blur-sm transition-all"
+          className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center border border-white/20 backdrop-blur-sm transition-all cursor-pointer"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -164,7 +210,7 @@ export const FastSlider: React.FC<FastSliderProps> = ({
           type="button"
           onClick={nextSlide}
           aria-label="Next slide"
-          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center border border-white/20 backdrop-blur-sm transition-all"
+          className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-900/60 hover:bg-slate-900/90 text-white flex items-center justify-center border border-white/20 backdrop-blur-sm transition-all cursor-pointer"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
@@ -178,7 +224,7 @@ export const FastSlider: React.FC<FastSliderProps> = ({
             type="button"
             onClick={() => setCurrentSlide(idx)}
             aria-label={`Go to slide ${idx + 1}`}
-            className={`h-2 rounded-full transition-all ${
+            className={`h-2 rounded-full transition-all cursor-pointer ${
               currentSlide === idx ? 'w-8 bg-amber-400' : 'w-2 bg-white/40 hover:bg-white/70'
             }`}
           />
