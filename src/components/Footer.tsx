@@ -12,7 +12,8 @@ import {
   BookOpen,
   PhoneCall,
   Shield,
-  ArrowRight
+  ArrowRight,
+  Building
 } from 'lucide-react';
 import { ActiveTab } from './Navbar';
 import { ThemeToggle } from './ThemeToggle';
@@ -328,41 +329,51 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenDonationModa
                   </div>
                 </div>
 
-                {/* Quick Map & Call Buttons */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
+                {/* Quick Map, Call & Email Buttons */}
+                <div className="grid grid-cols-3 gap-2 pt-1">
                   <a
                     href="https://maps.google.com/?q=Faizan-e-Madinah+Bradford+Maudsley+Street+BD3+9LE"
                     target="_blank"
                     rel="noreferrer"
-                    className="py-2.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs"
+                    className="py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs text-center"
+                    title="Open in Maps"
                   >
-                    <Navigation className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400" />
-                    <span>Open in Maps</span>
+                    <Navigation className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400 shrink-0" />
+                    <span>Maps</span>
                   </a>
 
                   <a
                     href="tel:01274442612"
-                    className="py-2.5 px-3 bg-teal-50 dark:bg-teal-900/60 hover:bg-teal-100 dark:hover:bg-teal-800 text-teal-800 dark:text-teal-200 hover:text-teal-950 dark:hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 border border-teal-200 dark:border-teal-700/50 shadow-2xs"
+                    className="py-2.5 px-2 bg-teal-50 dark:bg-teal-900/60 hover:bg-teal-100 dark:hover:bg-teal-800 text-teal-800 dark:text-teal-200 hover:text-teal-950 dark:hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 border border-teal-200 dark:border-teal-700/50 shadow-2xs text-center"
+                    title="Call 01274 442612"
                   >
-                    <PhoneCall className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300" />
-                    <span>Call 01274 442612</span>
+                    <PhoneCall className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300 shrink-0" />
+                    <span>Call</span>
+                  </a>
+
+                  <a
+                    href="mailto:Yorkshire@dawateislamiyorkshire.co.uk"
+                    className="py-2.5 px-2 bg-slate-100 dark:bg-slate-800 hover:bg-teal-100 dark:hover:bg-teal-800/60 text-slate-800 dark:text-white hover:text-teal-900 dark:hover:text-white text-xs font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs text-center"
+                    title="Email Yorkshire@dawateislamiyorkshire.co.uk"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-teal-700 dark:text-teal-400 shrink-0" />
+                    <span>Email</span>
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* Email link bar */}
-            <div className="px-6 py-4 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800/80 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Mail className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
-                <span>Email Enquiries:</span>
-              </span>
-              <a 
-                href="mailto:Yorkshire@dawateislamiyorkshire.co.uk"
-                className="text-teal-700 dark:text-teal-300 hover:text-teal-900 dark:hover:text-teal-200 font-medium truncate max-w-[180px]"
+            {/* View All 11 Centres Action Button (matches height of Card 2 donate button) */}
+            <div className="p-6 pt-0">
+              <button
+                type="button"
+                onClick={() => { setActiveTab('mosques'); scrollToTop(); }}
+                className="w-full py-3.5 px-4 bg-slate-50 hover:bg-teal-50 dark:bg-slate-800/80 dark:hover:bg-[#1f2e42] text-teal-900 dark:text-teal-200 font-extrabold text-xs sm:text-sm rounded-2xl transition-all border border-slate-200 dark:border-slate-700 flex items-center justify-center gap-2 group shadow-2xs hover:border-teal-400 dark:hover:border-teal-500 cursor-pointer"
               >
-                Yorkshire@dawateislamiyorkshire.co.uk
-              </a>
+                <Building className="w-4 h-4 text-teal-700 dark:text-teal-400 group-hover:scale-110 transition-transform shrink-0" />
+                <span>View All 11 Yorkshire Mosques</span>
+                <ArrowRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-1 transition-transform shrink-0" />
+              </button>
             </div>
           </div>
 
@@ -453,42 +464,6 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenDonationModa
                 </div>
                 <span className="text-xs font-bold text-slate-800 dark:text-white group-hover:text-white">TikTok</span>
                 <span className="text-[10px] text-slate-500 dark:text-slate-400 group-hover:text-slate-300">@diyorkshireregion</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Additional Welcome to Islam & Central Network Social Channels */}
-          <div className="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-4 text-xs">
-            <span className="text-slate-500 dark:text-slate-400 font-medium">
-              Specialized Departments:
-            </span>
-            <div className="flex flex-wrap items-center gap-3">
-              <a
-                href="https://youtube.com/@wti_official?si=izBoqfztOaoKXt0f"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 hover:bg-red-600 hover:text-white text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 border border-slate-200 dark:border-slate-700/60 shadow-2xs"
-              >
-                <span>Welcome to Islam YouTube</span>
-                <ExternalLink className="w-3 h-3 opacity-60" />
-              </a>
-              <a
-                href="https://www.facebook.com/share/1BdZbQeJHA/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 hover:bg-blue-600 hover:text-white text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 border border-slate-200 dark:border-slate-700/60 shadow-2xs"
-              >
-                <span>Welcome to Islam Facebook</span>
-                <ExternalLink className="w-3 h-3 opacity-60" />
-              </a>
-              <a
-                href="https://www.instagram.com/welcometoislamofficial?igsh=MTRmNTV2NDg5aXZnag=="
-                target="_blank"
-                rel="noreferrer"
-                className="px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 hover:bg-pink-600 hover:text-white text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 border border-slate-200 dark:border-slate-700/60 shadow-2xs"
-              >
-                <span>Welcome to Islam Instagram</span>
-                <ExternalLink className="w-3 h-3 opacity-60" />
               </a>
             </div>
           </div>

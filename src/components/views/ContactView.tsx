@@ -592,7 +592,7 @@ export const ContactView: React.FC<ContactViewProps> = ({
                     key={idx}
                     className="bg-white dark:bg-[#172438] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-xs hover:shadow-lg transition-all flex flex-col group"
                   >
-                    <div className="aspect-[4/5] sm:aspect-auto sm:h-60 lg:h-64 bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
+                    <div className="aspect-square sm:aspect-auto sm:h-60 lg:h-64 bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
                       <img
                         src={preacher.image}
                         alt={preacher.name}
