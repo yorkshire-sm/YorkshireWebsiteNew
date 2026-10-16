@@ -1,0 +1,6 @@
+{
+  "name": "Dawat-e-Islami Yorkshire",
+  "description": "Official portal for Dawat-e-Islami Yorkshire: Mosques, Prayer Times, Live Madani Channel, Funeral Services, Dar-ul-Madinah Education, Spiritual Cures, and Zakah Calculator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
