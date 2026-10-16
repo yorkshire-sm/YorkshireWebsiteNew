@@ -523,6 +523,14 @@ export const Footer: React.FC<FooterProps> = ({ setActiveTab, onOpenDonationModa
             >
               Prayer Times
             </button>
+            <span>·</span>
+            <button
+              onClick={() => { setActiveTab('madani-channel'); scrollToTop(); }}
+              className="hover:text-red-600 dark:hover:text-red-400 font-semibold transition-colors flex items-center gap-1"
+            >
+              <span>Madani Channel Live</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-red-600 animate-pulse"></span>
+            </button>
           </div>
         </div>
       </div>

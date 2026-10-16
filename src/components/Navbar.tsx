@@ -15,6 +15,8 @@ import {
   Clock,
   Users,
   ChevronRight,
+  PlayCircle,
+  Tv,
 } from 'lucide-react';
 import { JummahTimingsBar } from './JummahTimingsBar';
 import { ThemeToggle } from './ThemeToggle';
@@ -33,7 +35,8 @@ export type ActiveTab =
   | 'education' 
   | 'spiritual' 
   | 'prayer-app'
-  | 'center';
+  | 'center'
+  | 'madani-channel';
 
 interface NavbarProps {
   activeTab: ActiveTab;
@@ -55,6 +58,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [funeralDropdownOpen, setFuneralDropdownOpen] = useState(false);
   const [moreDropdownOpen, setMoreDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  // Mobile accordion states (collapsed by default)
+  const [mobileCentersExpanded, setMobileCentersExpanded] = useState(false);
+  const [mobileFuneralExpanded, setMobileFuneralExpanded] = useState(false);
+  const [mobileServicesExpanded, setMobileServicesExpanded] = useState(false);
 
   const centersRef = useRef<HTMLDivElement>(null);
   const funeralRef = useRef<HTMLDivElement>(null);
@@ -93,6 +101,9 @@ export const Navbar: React.FC<NavbarProps> = ({
     setCentersDropdownOpen(false);
     setFuneralDropdownOpen(false);
     setMoreDropdownOpen(false);
+    setMobileCentersExpanded(false);
+    setMobileFuneralExpanded(false);
+    setMobileServicesExpanded(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -106,6 +117,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       setActiveTab('center');
       setMobileMenuOpen(false);
       setCentersDropdownOpen(false);
+      setMobileCentersExpanded(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -124,6 +136,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   const moreItems: { label: string; tab?: ActiveTab; url?: string; external?: boolean }[] = [
+    { label: 'Madani Channel Live (TV & Audio)', tab: 'madani-channel' },
     { label: 'Weekly Ijtima', tab: 'ijtima' },
     { label: '3-Day Qafilah', tab: 'qafilah' },
     { label: 'Dar-ul-Madinah Education', tab: 'education' },
@@ -149,21 +162,21 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* 2. Main Navigation Bar with Clean Design */}
       <div className="bg-white/95 dark:bg-[#111C2E]/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs relative z-20 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex items-center justify-between gap-4 h-16 sm:h-20">
+        <div className="max-w-7xl mx-auto px-2.5 sm:px-4 lg:px-6">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 h-16 sm:h-20">
             {/* Brand Logo & Title */}
             <button
               onClick={() => handleNavClick('home')}
-              className="flex items-center gap-3 text-left group shrink-0"
+              className="flex items-center gap-2 sm:gap-3 text-left group shrink-0 min-w-0"
             >
-              <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-teal-800 text-white flex items-center justify-center font-heading font-extrabold text-base sm:text-lg tracking-wider shadow-sm group-hover:bg-teal-900 transition-colors">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-lg sm:rounded-xl bg-teal-800 text-white flex items-center justify-center font-heading font-extrabold text-xs sm:text-base lg:text-lg tracking-wider shadow-sm group-hover:bg-teal-900 transition-colors shrink-0">
                 <span className="text-amber-300">DI</span>
               </div>
-              <div className="flex flex-col">
-                <span className="font-heading font-extrabold text-base sm:text-lg text-slate-900 dark:text-slate-100 tracking-tight leading-none group-hover:text-teal-800 dark:group-hover:text-teal-400 transition-colors whitespace-nowrap">
+              <div className="flex flex-col min-w-0">
+                <span className="font-heading font-extrabold text-xs xs:text-sm sm:text-base lg:text-lg text-slate-900 dark:text-slate-100 tracking-tight leading-none group-hover:text-teal-800 dark:group-hover:text-teal-400 transition-colors whitespace-nowrap">
                   Dawat-e-Islami
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-bold tracking-wider text-teal-700 dark:text-teal-400 uppercase mt-0.5">
+                <span className="text-[9px] sm:text-[11px] font-bold tracking-wider text-teal-700 dark:text-teal-400 uppercase mt-0.5 truncate">
                   Yorkshire Region
                 </span>
               </div>
@@ -370,28 +383,51 @@ export const Navbar: React.FC<NavbarProps> = ({
             </nav>
 
             {/* Desktop Actions & Theme Toggle */}
-            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-              {/* Theme Toggle (Dropdown) */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+              {/* Watch Live Button matching user screenshot layout */}
+              <button
+                type="button"
+                onClick={() => handleNavClick('madani-channel')}
+                className={`group relative inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer shadow-xs ${
+                  activeTab === 'madani-channel'
+                    ? 'bg-red-50 dark:bg-[#251722] border-red-500 text-red-700 dark:text-red-400 ring-2 ring-red-400/30'
+                    : 'bg-white dark:bg-[#1A1822] border-red-200/90 dark:border-red-900/50 hover:bg-red-50/70 dark:hover:bg-[#231A25] text-red-600 dark:text-red-400 hover:border-red-400 dark:hover:border-red-600/60'
+                }`}
+                title="Watch Madani Channel Live Stream"
+                aria-label="Watch Madani Channel Live"
+              >
+                <PlayCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-400 shrink-0 group-hover:scale-110 transition-transform" />
+                <span className="font-semibold text-xs sm:text-sm whitespace-nowrap">
+                  <span className="hidden sm:inline">Watch </span>Live
+                </span>
+                <span className="inline-flex items-center px-1 sm:px-1.5 py-0.2 sm:py-0.5 rounded-full text-[9px] sm:text-[10px] font-black tracking-wider uppercase bg-red-600 text-white shadow-xs">
+                  LIVE
+                </span>
+              </button>
+
+              {/* Theme Toggle (Dropdown for all devices) */}
               <ThemeToggle variant="dropdown" />
 
-              {/* Donate Button */}
+              {/* Donate Button: Heart icon on mobile, 'Donate Now' + Heart on tablet & desktop */}
               <button
                 type="button"
                 onClick={() => onOpenDonationModal()}
-                className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl transition-all shadow-xs hover:shadow whitespace-nowrap shrink-0"
+                className="inline-flex items-center justify-center gap-1.5 p-2 sm:px-3.5 sm:py-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl transition-all shadow-xs hover:shadow whitespace-nowrap shrink-0"
+                title="Make a Donation"
+                aria-label="Make a Donation"
               >
-                <Heart className="w-3.5 h-3.5 fill-slate-950" />
-                <span>Donate</span>
+                <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-slate-950 shrink-0" />
+                <span className="hidden sm:inline">Donate Now</span>
               </button>
 
               {/* Mobile Hamburger Toggle */}
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-2 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#172438] rounded-xl transition-colors"
+                className="xl:hidden p-1.5 sm:p-2 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#172438] rounded-xl transition-colors shrink-0"
                 aria-label="Toggle navigation menu"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
               </button>
             </div>
           </div>
@@ -400,25 +436,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-white dark:bg-[#111C2E] border-b border-slate-200 dark:border-slate-800 px-4 pt-3 pb-8 space-y-2 shadow-2xl animate-fadeIn max-h-[85vh] overflow-y-auto z-50 relative transition-colors duration-200">
-          {/* Theme Selector Strip inside Mobile Drawer */}
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-            <div>
-              <span className="text-xs font-bold text-slate-800 dark:text-slate-200">Theme</span>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400">Switch appearance</p>
-            </div>
-            <ThemeToggle variant="segmented" />
-          </div>
-
-          <div className="pb-1 border-b border-slate-100 dark:border-slate-800">
-            <span className="text-[11px] font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider block mb-1">
-              Main Navigation
-            </span>
-          </div>
-
+        <div className="xl:hidden bg-white dark:bg-[#111C2E] border-b border-slate-200 dark:border-slate-800 px-4 pt-3 pb-6 space-y-1.5 shadow-2xl animate-fadeIn max-h-[85vh] overflow-y-auto z-50 relative transition-colors duration-200">
+          
+          {/* 1. Home */}
           <button
+            type="button"
             onClick={() => handleNavClick('home')}
-            className={`w-full px-4 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
+            className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
               activeTab === 'home'
                 ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
                 : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
@@ -427,9 +451,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             Home
           </button>
 
+          {/* 2. Welcome To Islam */}
           <button
+            type="button"
             onClick={() => handleNavClick('welcome')}
-            className={`w-full px-4 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
+            className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
               activeTab === 'welcome'
                 ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
                 : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
@@ -438,47 +464,89 @@ export const Navbar: React.FC<NavbarProps> = ({
             Welcome To Islam
           </button>
 
-          {/* Funeral Section with 2 Sub-Items */}
-          <div className="pt-1 pb-1 rounded-xl bg-slate-50/80 dark:bg-[#172438]/80 p-1.5 border border-slate-100 dark:border-slate-700">
-            <span className="text-[11px] font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider block px-2 pb-1">
-              Funeral
-            </span>
-            <div className="space-y-1">
-              <button
-                onClick={() => handleNavClick('funeral')}
-                className={`w-full px-3 py-2 text-xs font-semibold rounded-lg text-left transition-colors flex items-center justify-between ${
-                  activeTab === 'funeral'
-                    ? 'bg-teal-100/80 dark:bg-teal-900/50 text-teal-900 dark:text-teal-200 font-bold'
-                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-[#25364D]'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <PhoneCall className="w-3.5 h-3.5 text-emerald-700 dark:text-emerald-400" />
-                  <span>Funeral Service</span>
-                </div>
-                <span className="text-[10px] bg-white dark:bg-[#111C2E] text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded border border-slate-200 dark:border-slate-700">24/7 Care</span>
-              </button>
+          {/* 3. Our Centers (Collapsed by default) */}
+          <div className="rounded-xl overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setMobileCentersExpanded(!mobileCentersExpanded)}
+              className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors flex items-center justify-between ${
+                activeTab === 'mosques' || activeTab === 'center'
+                  ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
+              }`}
+            >
+              <span>Our Centers</span>
+              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${mobileCentersExpanded ? 'rotate-180' : ''}`} />
+            </button>
 
-              <button
-                onClick={() => handleNavClick('death-committee')}
-                className={`w-full px-3 py-2 text-xs font-semibold rounded-lg text-left transition-colors flex items-center justify-between ${
-                  activeTab === 'death-committee'
-                    ? 'bg-teal-100/80 dark:bg-teal-900/50 text-teal-900 dark:text-teal-200 font-bold'
-                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-[#25364D]'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <Users className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
-                  <span>Death Committee</span>
-                </div>
-                <span className="text-[10px] bg-amber-100 dark:bg-amber-900/50 text-amber-800 dark:text-amber-300 px-1.5 py-0.5 rounded font-bold">FSF Fund</span>
-              </button>
-            </div>
+            {mobileCentersExpanded && (
+              <div className="mt-1 pl-3 pr-1 py-1 space-y-0.5 border-l-2 border-teal-600/40 dark:border-teal-400/40 ml-3">
+                {centersList.map((c, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => handleCenterClick(c)}
+                    className={`w-full px-3 py-2 text-xs font-medium rounded-lg text-left transition-colors ${
+                      (c.isAll && activeTab === 'mosques') || (activeTab === 'center' && selectedCenter === c.centerId)
+                        ? 'bg-teal-100/70 dark:bg-teal-900/40 text-teal-900 dark:text-teal-200 font-bold'
+                        : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#172438]'
+                    }`}
+                  >
+                    {c.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
+          {/* 4. Funeral (Collapsed by default) */}
+          <div className="rounded-xl overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setMobileFuneralExpanded(!mobileFuneralExpanded)}
+              className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors flex items-center justify-between ${
+                activeTab === 'funeral' || activeTab === 'death-committee'
+                  ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
+              }`}
+            >
+              <span>Funeral Services</span>
+              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${mobileFuneralExpanded ? 'rotate-180' : ''}`} />
+            </button>
+
+            {mobileFuneralExpanded && (
+              <div className="mt-1 pl-3 pr-1 py-1 space-y-0.5 border-l-2 border-teal-600/40 dark:border-teal-400/40 ml-3">
+                <button
+                  type="button"
+                  onClick={() => handleNavClick('funeral')}
+                  className={`w-full px-3 py-2 text-xs font-medium rounded-lg text-left transition-colors ${
+                    activeTab === 'funeral'
+                      ? 'bg-teal-100/70 dark:bg-teal-900/40 text-teal-900 dark:text-teal-200 font-bold'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#172438]'
+                  }`}
+                >
+                  Funeral Service
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleNavClick('death-committee')}
+                  className={`w-full px-3 py-2 text-xs font-medium rounded-lg text-left transition-colors ${
+                    activeTab === 'death-committee'
+                      ? 'bg-teal-100/70 dark:bg-teal-900/40 text-teal-900 dark:text-teal-200 font-bold'
+                      : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#172438]'
+                  }`}
+                >
+                  Death Committee (FSF)
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* 5. Zakah Calculator */}
           <button
+            type="button"
             onClick={() => handleNavClick('zakah')}
-            className={`w-full px-4 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
+            className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
               activeTab === 'zakah'
                 ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
                 : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
@@ -487,98 +555,66 @@ export const Navbar: React.FC<NavbarProps> = ({
             Zakah Calculator
           </button>
 
-          {/* Mobile Centers Section with Sub-Items */}
-          <div className="pt-1 pb-1 rounded-xl bg-slate-50/80 dark:bg-[#172438]/80 p-1.5 border border-slate-100 dark:border-slate-700">
-            <div className="flex items-center justify-between px-2 pb-1">
-              <span className="text-[11px] font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider block">
-                Our Centers
-              </span>
-              <button
-                type="button"
-                onClick={() => handleNavClick('mosques')}
-                className="text-[10px] font-bold text-teal-700 dark:text-teal-300 hover:underline"
-              >
-                All 11 Mosques →
-              </button>
-            </div>
-            <div className="space-y-1 max-h-52 overflow-y-auto">
-              {centersList.map((c, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handleCenterClick(c)}
-                  className={`w-full px-3 py-1.5 text-xs font-semibold rounded-lg text-left transition-colors flex items-center justify-between ${
-                    (c.isAll && activeTab === 'mosques') || (activeTab === 'center' && selectedCenter === c.centerId)
-                      ? 'bg-teal-100/80 dark:bg-teal-900/50 text-teal-900 dark:text-teal-200 font-bold'
-                      : 'text-slate-700 dark:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-[#25364D]'
-                  }`}
-                >
-                  <span className="truncate">{c.name}</span>
-                  {c.isAll ? (
-                    <span className="text-[9px] bg-teal-200/70 dark:bg-teal-800 text-teal-900 dark:text-teal-200 px-1 py-0.5 rounded font-bold shrink-0">11 Sites</span>
-                  ) : (
-                    <ChevronRight className="w-3 h-3 text-slate-400 shrink-0" />
-                  )}
-                </button>
-              ))}
-            </div>
+          {/* 6. Departments & Services (Collapsed by default) */}
+          <div className="rounded-xl overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setMobileServicesExpanded(!mobileServicesExpanded)}
+              className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors flex items-center justify-between ${
+                ['ijtima', 'qafilah', 'education', 'spiritual', 'prayer-app'].includes(activeTab)
+                  ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
+                  : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
+              }`}
+            >
+              <span>Departments & Services</span>
+              <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${mobileServicesExpanded ? 'rotate-180' : ''}`} />
+            </button>
+
+            {mobileServicesExpanded && (
+              <div className="mt-1 pl-3 pr-1 py-1 space-y-0.5 border-l-2 border-teal-600/40 dark:border-teal-400/40 ml-3">
+                {moreItems.map((item, idx) => (
+                  <React.Fragment key={idx}>
+                    {item.external ? (
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#172438] transition-colors"
+                      >
+                        <span>{item.label}</span>
+                        <ExternalLink className="w-3 h-3 text-slate-400" />
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => item.tab && handleNavClick(item.tab)}
+                        className={`w-full px-3 py-2 text-xs font-medium rounded-lg text-left transition-colors ${
+                          activeTab === item.tab
+                            ? 'bg-teal-100/70 dark:bg-teal-900/40 text-teal-900 dark:text-teal-200 font-bold'
+                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-[#172438]'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Unified Contact Us */}
+          {/* 7. Contact Us */}
           <button
+            type="button"
             onClick={() => handleNavClick('contact')}
-            className={`w-full px-4 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
+            className={`w-full px-3.5 py-2.5 text-sm font-semibold rounded-xl text-left transition-colors ${
               activeTab === 'contact' || activeTab === 'about'
                 ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
                 : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
             }`}
           >
-            Contact Us (About & Headquarters)
+            Contact Us
           </button>
-
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-1">
-            <span className="text-[11px] font-bold text-teal-800 dark:text-teal-400 uppercase tracking-wider block px-2 pb-1">
-              Departments & Services
-            </span>
-            {moreItems.map((item, idx) => (
-              <React.Fragment key={idx}>
-                {item.external ? (
-                  <a
-                    href={item.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="w-full flex items-center justify-between px-4 py-2 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438] transition-colors"
-                  >
-                    <span>{item.label}</span>
-                    <ExternalLink className="w-3 h-3 text-slate-400 dark:text-slate-500" />
-                  </a>
-                ) : (
-                  <button
-                    onClick={() => item.tab && handleNavClick(item.tab)}
-                    className={`w-full flex items-center justify-between px-4 py-2 text-xs font-semibold rounded-lg text-left transition-colors ${
-                      activeTab === item.tab
-                        ? 'bg-teal-50 dark:bg-[#172438] text-teal-800 dark:text-teal-300 font-bold'
-                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-[#172438]'
-                    }`}
-                  >
-                    <span>{item.label}</span>
-                  </button>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-
-          <div className="pt-4 border-t border-slate-100 dark:border-slate-800 mt-2">
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenDonationModal();
-              }}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 rounded-xl font-bold text-sm shadow-xs transition-all"
-            >
-              <Heart className="w-4 h-4 fill-slate-950" /> Make a Donation
-            </button>
-          </div>
         </div>
       )}
     </header>

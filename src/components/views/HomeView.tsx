@@ -559,37 +559,37 @@ export const HomeView: React.FC<HomeViewProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5">
           {PREACHERS.map((preacher, idx) => (
             <div
               key={idx}
-              className="bg-white dark:bg-[#172438] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all flex flex-col group"
+              className="bg-white dark:bg-[#172438] rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-xs hover:shadow-lg transition-all flex flex-col group"
             >
-              <div className="h-64 bg-slate-200 dark:bg-slate-800 overflow-hidden relative">
+              <div className="aspect-[4/5] sm:aspect-auto sm:h-60 lg:h-64 bg-slate-100 dark:bg-slate-800 overflow-hidden relative">
                 <img
                   src={preacher.image}
                   alt={preacher.name}
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover object-top transition-transform duration-500"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none" />
                 {preacher.honorific && (
-                  <span className="absolute bottom-2 right-2 text-xs text-amber-300 font-arabic font-bold bg-slate-900/80 px-2 py-0.5 rounded">
+                  <span className="absolute bottom-2 right-2 text-[10px] sm:text-xs text-amber-300 font-arabic font-bold bg-slate-900/80 px-1.5 py-0.5 rounded">
                     {preacher.honorific}
                   </span>
                 )}
               </div>
-              <div className="p-4 flex-1 flex flex-col justify-between text-center bg-teal-800 dark:bg-[#111C2E] border-t border-teal-700/50 dark:border-slate-700 text-white space-y-2">
+              <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between text-center bg-teal-800 dark:bg-[#111C2E] border-t border-teal-700/50 dark:border-slate-700 text-white space-y-1.5 sm:space-y-2">
                 <div>
-                  <h4 className="font-heading font-bold text-sm sm:text-base text-white dark:text-slate-100">
+                  <h4 className="font-heading font-bold text-xs sm:text-base text-white dark:text-slate-100 leading-tight">
                     {preacher.name}
                   </h4>
-                  <div className="w-8 h-0.5 bg-amber-400 mx-auto my-1.5 rounded" />
-                  <p className="text-[11px] font-semibold text-teal-100 dark:text-teal-300 uppercase tracking-wider">
+                  <div className="w-6 sm:w-8 h-0.5 bg-amber-400 mx-auto my-1 sm:my-1.5 rounded" />
+                  <p className="text-[10px] sm:text-[11px] font-semibold text-teal-100 dark:text-teal-300 uppercase tracking-wider line-clamp-1">
                     {preacher.title}
                   </p>
                 </div>
-                <p className="text-[11px] text-teal-200 dark:text-slate-400 italic line-clamp-2">
+                <p className="text-[10px] sm:text-[11px] text-teal-200 dark:text-slate-400 italic line-clamp-2">
                   {preacher.role}
                 </p>
               </div>

@@ -20,6 +20,7 @@ import { ContactView } from './components/views/ContactView';
 import { PrayerTimesAppView } from './components/views/PrayerTimesAppView';
 import { WelcomeToIslamView } from './components/views/WelcomeToIslamView';
 import { CenterDetailView } from './components/views/CenterDetailView';
+import { MadaniChannelView } from './components/views/MadaniChannelView';
 
 // Mobile Floating Nav
 import { Compass, MapPin, Heart, Calculator, PhoneCall, Users, Calendar } from 'lucide-react';
@@ -39,6 +40,10 @@ export default function App() {
       const rawHash = window.location.hash.replace('#', '');
       if (rawHash === 'gatherings') {
         setActiveTab('ijtima');
+        return;
+      }
+      if (rawHash === 'live' || rawHash === 'madani-channel' || rawHash === 'streaming') {
+        setActiveTab('madani-channel');
         return;
       }
       if (rawHash.startsWith('center')) {
@@ -65,6 +70,7 @@ export default function App() {
         'zakah',
         'contact',
         'prayer-app',
+        'madani-channel',
       ];
       if (validTabs.includes(hash)) {
         setActiveTab(hash);
@@ -206,6 +212,13 @@ export default function App() {
 
         {activeTab === 'prayer-app' && (
           <PrayerTimesAppView
+            onBackToHome={() => handleTabChange('home')}
+          />
+        )}
+
+        {activeTab === 'madani-channel' && (
+          <MadaniChannelView
+            onOpenDonationModal={handleOpenDonation}
             onBackToHome={() => handleTabChange('home')}
           />
         )}
