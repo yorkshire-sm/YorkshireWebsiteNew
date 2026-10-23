@@ -15,11 +15,11 @@ import {
   Clock,
   Users,
   ChevronRight,
-  PlayCircle,
   Tv,
 } from 'lucide-react';
 import { JummahTimingsBar } from './JummahTimingsBar';
 import { ThemeToggle } from './ThemeToggle';
+import mcLogo from '../assets/mc_logo.png';
 
 export type ActiveTab = 
   | 'home' 
@@ -384,11 +384,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
             {/* Desktop Actions & Theme Toggle */}
             <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-              {/* Watch Live Button matching user screenshot layout */}
+              {/* Watch Live Button with MC Logo */}
               <button
                 type="button"
                 onClick={() => handleNavClick('madani-channel')}
-                className={`group relative inline-flex items-center gap-1 sm:gap-2 px-2 sm:px-3 lg:px-3.5 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer shadow-xs ${
+                className={`group relative inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 lg:px-3.5 py-1 sm:py-1.5 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer shadow-xs ${
                   activeTab === 'madani-channel'
                     ? 'bg-red-50 dark:bg-[#251722] border-red-500 text-red-700 dark:text-red-400 ring-2 ring-red-400/30'
                     : 'bg-white dark:bg-[#1A1822] border-red-200/90 dark:border-red-900/50 hover:bg-red-50/70 dark:hover:bg-[#231A25] text-red-600 dark:text-red-400 hover:border-red-400 dark:hover:border-red-600/60'
@@ -396,7 +396,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 title="Watch Madani Channel Live Stream"
                 aria-label="Watch Madani Channel Live"
               >
-                <PlayCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-400 shrink-0 group-hover:scale-110 transition-transform" />
+                <img
+                  src={mcLogo}
+                  alt="Madani Channel Logo"
+                  className="h-5 sm:h-5.5 w-auto object-contain shrink-0 group-hover:scale-110 transition-transform drop-shadow-2xs"
+                />
                 <span className="font-semibold text-xs sm:text-sm whitespace-nowrap">
                   <span className="hidden sm:inline">Watch </span>Live
                 </span>
